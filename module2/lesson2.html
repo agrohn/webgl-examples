@@ -1,0 +1,40 @@
+<?doctype HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>WebGL demo - anssi.grohn@karelia.fi</title>
+<!-- include jQuery -->
+<script src="./lib/jquery-1.9.1.min.js"></script>
+<script src="./lib/three.js"></script>
+
+<!-- fragment shader code -->
+<script id="shader-fs" type="x-shader/x-fragment">
+precision mediump float;
+
+void main() {
+   gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+}
+</script>
+
+<!-- vertex shader code -->
+<script id="shader-vs" type="x-shader/x-vertex">
+attribute vec3 aVertPos;
+
+uniform mat4 uModelView;
+uniform mat4 uProjection;
+
+void main()
+{
+    gl_PointSize = 4.0*(1.0+abs(aVertPos.y));
+    gl_Position = uProjection  * uModelView * vec4(aVertPos,1.0);
+}
+</script>
+
+<!-- include our lesson-based js -->
+<script src="lesson2.js"></script>
+</head>
+<body onload='app.Prepare($("#main"));'>
+<div id="title">WebGL lesson 1</div>
+<canvas id="main" style="border: solid 1px;" width="800" height="600">Canvas is not supported</canvas>
+</body>
+</html>
