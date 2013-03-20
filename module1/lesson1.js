@@ -30,7 +30,7 @@ var WebGLApp = function(){
 	that.InitShaders();
 	
 	// define screen clear color.
-	that.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+	that.gl.clearColor(0.0, 1.0, 0.0, 1.0);
 
 	// enable depth test.
 	that.gl.enable(that.gl.DEPTH_TEST);
@@ -120,12 +120,12 @@ var WebGLApp = function(){
 	// access attribute location in program
 	that.shaderProgram.vertexPositionAttribute = that.gl.getAttribLocation(that.shaderProgram, "aVertPos");
 
-	// enable vertex attrib array so data gets transferred
-	that.gl.enableVertexAttribArray(that.shaderProgram.vertexPositionAttribute);
+
 	
 	// access uniform parameters (matrices)
 	that.shaderProgram.projection = that.gl.getUniformLocation(that.shaderProgram, "uProjection");
 	that.shaderProgram.modelView  = that.gl.getUniformLocation(that.shaderProgram, "uModelView");
+
     }
 
     /* ---------- Actual rendering  ---------- */
@@ -142,6 +142,7 @@ var WebGLApp = function(){
 	that.projMat.makeOrthographic( -2.0, 2.0, 2.0, -2.0, -0.1, 2.0);
 	that.modelViewMat.identity();
 
+	that.gl.useProgram( that.shaderProgram );
 	// bind buffer for next operation
 	that.gl.bindBuffer(that.gl.ARRAY_BUFFER, that.vertices);
 
@@ -150,11 +151,13 @@ var WebGLApp = function(){
 				     that.vertices.itemSize, 
 				     that.gl.FLOAT, false, 0, 0);
 
-	
+	// enable vertex attrib array so data gets transferred
+	that.gl.enableVertexAttribArray(that.shaderProgram.vertexPositionAttribute);
+
 	// update uniforms in shader program
 	that.gl.uniformMatrix4fv( that.shaderProgram.projection, false, that.projMat.flattenToArray([]));
 	that.gl.uniformMatrix4fv( that.shaderProgram.modelView,  false, that.modelViewMat.flattenToArray([]));
-
+	
 	// draw stuff on screen from vertices, using triangles.
 	that.gl.drawArrays( that.gl.TRIANGLES, 0, that.vertices.numItems);
 
