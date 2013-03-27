@@ -19,7 +19,10 @@ var WebGLApp = function(){
     this.modelViewMat = new THREE.Matrix4();      // modelview matrix, using Three.js matrix type
 
     this.shaderProgram = null;                    // shader program (WebGL-specific)
-
+    this.mode = "TRIANGLES";
+    this.setMode = function( mode ){
+	that.mode = mode;
+    }
     /* ---------- Initialization routine ---------- */
     this.Prepare = function(canvas) {
 
@@ -31,7 +34,7 @@ var WebGLApp = function(){
 	that.InitShaders();
 	
 	// define screen clear color.
-	that.gl.clearColor(0.0, 1.0, 0.0, 1.0);
+	that.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
 	// enable depth test.
 	that.gl.enable(that.gl.DEPTH_TEST);
@@ -52,7 +55,7 @@ var WebGLApp = function(){
 	    that.gl = that.canvas.getContext("experimental-webgl");
 	    that.gl.viewportWidth = that.canvas.width;
 	    that.gl.viewportHeight = that.canvas.height;
-
+	    that.mode = that.gl.TRIANGLE_LIST;
 	} catch(e) {
 	    console.log(e);
 	}
@@ -91,7 +94,8 @@ var WebGLApp = function(){
 	// add few helpful parameters
 	that.vertices.itemSize = 3;  // how many floats does a single vertex element need
 	that.vertices.numItems = 6;  // how many vertex elements exist in the buffer
-	
+
+	////////////////////////////////////////////////////////////
 	// Create element array buffer where we can store indices.
 	that.indices = that.gl.createBuffer();
 	that.gl.bindBuffer(that.gl.ELEMENT_ARRAY_BUFFER, that.indices);
@@ -181,9 +185,10 @@ var WebGLApp = function(){
 
 	// tell opengl that we use this index buffer now.
 	that.gl.bindBuffer( that.gl.ELEMENT_ARRAY_BUFFER, that.indices);
-
+	
+	
 	// draw stuff on screen from vertices, using triangles and specified index buffer
-	that.gl.drawElements(that.gl.LINE_STRIP, that.indices.numItems, that.indices.itemSize, 0);
+	that.gl.drawElements(that.gl[that.mode], that.indices.numItems, that.indices.itemSize, 0);
     }
 
     /* ---------- Utility function, allows to compile shaders   ---------- */
