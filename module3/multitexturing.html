@@ -1,0 +1,95 @@
+<?doctype HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>WebGL demo - anssi.grohn@karelia.fi</title>
+<!-- include jQuery -->
+<script src="../lib/jquery-1.9.1.min.js"></script>
+<script src="../lib/three.js"></script>
+
+<!-- fragment shader code for lines and triangles -->
+<script id="shader-fs" type="x-shader/x-fragment">
+precision lowp float;
+varying vec2 texcoord;
+varying vec2 texcoord2;
+uniform sampler2D map;
+uniform sampler2D lightMap;
+
+void main() 
+{
+    vec3 diffuse = texture2D(map, texcoord).rgb;
+    vec3 light = texture2D(lightMap, texcoord2).rgb;
+    gl_FragColor = vec4(diffuse*light, 1.0);
+}
+
+</script>
+
+<!-- vertex shader code -->
+<script id="shader-vs" type="x-shader/x-vertex">
+attribute vec3 aPosition;
+attribute vec2 aTexCoord;
+attribute vec2 aTexCoord2;
+
+uniform mat4 uModelView;
+uniform mat4 uProjection;
+
+varying vec2 texcoord;
+varying vec2 texcoord2;
+
+void main()
+{
+    texcoord = aTexCoord;
+    texcoord2 = aTexCoord2;
+    // transform vertex position
+    gl_Position = uProjection  * uModelView * vec4(aPosition,1.0);
+
+}
+</script>
+
+
+
+
+ <script>
+    $(function(){
+        $("#s-buttons input").each( function(){
+            $(this).on('change', function(){
+		if( $(this).is(':checked') ){
+		    app.setModeS($(this).val());
+		}
+	    });
+	});
+	$("#t-buttons input").each( function(){
+            $(this).on('change', function(){
+		if( $(this).is(':checked') ){
+		    app.setModeT($(this).val());
+		}
+	    });
+	});
+    });
+</script>
+<!-- include our lesson-based js -->
+<script src="../lib/util.js"></script>
+<script src="multitexturing.js"></script>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body onload='app.Prepare($("#main"));'>
+
+<canvas id="main" style="border: solid 1px;" width="800" height="600">Canvas is not supported</canvas>
+<div id="controls">
+<div id="title">3D Graphics Programming - Multitexturing demo </div>
+<div id="s-buttons" class="controls">
+    Select option for texture clamping:<br/>
+    <input type="radio" name="clamp-type-s" value="REPEAT" id="repeat" checked/>REPEAT<br/>
+    <input type="radio" name="clamp-type-s" value="CLAMP_TO_EDGE" id="clamp"/>line CLAMP_TO_EDGE<br/>
+    <input type="radio" name="clamp-type-s" value="MIRRORED_REPEAT" id="mirror"/>MIRRORED_REPEAT
+</div>
+<div id="t-buttons" class="controls">
+    Select option for texture clamping:<br/>
+    <input type="radio" name="clamp-type-t" value="REPEAT" id="repeat" checked/>REPEAT<br/>
+    <input type="radio" name="clamp-type-t" value="CLAMP_TO_EDGE" id="clamp"/>line CLAMP_TO_EDGE<br/>
+    <input type="radio" name="clamp-type-t" value="MIRRORED_REPEAT" id="mirror"/>MIRRORED_REPEAT
+</div>
+</div>
+
+</body>
+</html>
