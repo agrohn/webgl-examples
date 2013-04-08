@@ -166,7 +166,6 @@ var WebGLApp = function(){
 	}
 	that.stoneTexture.image.src = "stone.png";
     }
-
    
     /* ---------- Vertex Data Init  ---------- */
     this.InitData = function()
