@@ -204,11 +204,7 @@ $(function(){
 
 
     // Construct a mesh object
-    var ground = new THREE.Mesh( new THREE.CubeGeometry(100,0.2,100,1,1,1), customPhongShader
-				 /*new THREE.MeshPhongMaterial({
-				     map: rockTexture,
-				     transparent: true
-				 })*/);
+    var ground = new THREE.Mesh( new THREE.CubeGeometry(100,0.2,100,1,1,1), customPhongShader);
 
     
     // Do a little magic with vertex coordinates so ground looks more interesting

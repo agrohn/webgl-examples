@@ -200,7 +200,6 @@ $(function(){
     $.each(ground.geometry.faceVertexUvs[0], function(i,d){
 
 	d[0] = new THREE.Vector2(0,25);
-	//d[1] = new THREE.Vector2(0,0);
 	d[2] = new THREE.Vector2(25,0);
 	d[3] = new THREE.Vector2(25,25);
     });
