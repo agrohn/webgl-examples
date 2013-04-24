@@ -195,7 +195,7 @@ $(function(){
     sbmfm.depthWrite = false;
     // Create a new mesh with cube geometry 
     var skybox = new THREE.Mesh(
-	new THREE.CubeGeometry( 10,10,10,1,1,1 ), 
+	new THREE.CubeGeometry( 1,1,1,1,1,1 ), 
 	sbmfm
     );
 
