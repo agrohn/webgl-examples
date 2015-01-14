@@ -1,7 +1,9 @@
 /*************************************************************
-  3D Graphics Programming
-  anssi.grohn@karelia.fi 2013
-  Mesh loading and camera movement demo code with Three.js
+ *  3D Graphics Programming
+ *
+ *  Mesh loading and camera movement demo code with Three.js (r69)
+ *
+ *  anssi.grohn@karelia.fi 2014-2015.
  *************************************************************/
 // Parameters
 var width = 800,
@@ -60,7 +62,7 @@ $(function(){
     rockTexture.wrapT = THREE.RepeatWrapping;
 
     // Construct a mesh object
-    var ground = new THREE.Mesh( new THREE.CubeGeometry(100,0.2,100,1,1,1),
+    var ground = new THREE.Mesh( new THREE.BoxGeometry(100,0.2,100,1,1,1),
 				 new THREE.MeshBasicMaterial({
 				     map: rockTexture,
 				     transparent: true
@@ -166,32 +168,48 @@ var angle = 0.0;
 function update(){
 
     // render everything 
-    renderer.setClearColorHex(0x000000, 1.0);
+    renderer.setClearColor(0x000000, 1.0);
     renderer.clear(true);
     renderer.render(scene, camera); 
     
     if ( keysPressed["W".charCodeAt(0)] == true ){
 	var dir = new THREE.Vector3(0,0,-1);
-	var dirW = dir.applyMatrix4(camObject.matrixRotationWorld);
-	camObject.translate(0.1, dirW);
+	var m = new THREE.Matrix4();
+	camObject.matrixWorld.extractRotation(m);
+	var dirW = dir.applyMatrix4(m);
+	camObject.translateOnAxis(dirW, 0.1 );
     }
-
+    
     if ( keysPressed["S".charCodeAt(0)] == true ){
 	var dir = new THREE.Vector3(0,0,-1);
-	var dirW = dir.applyMatrix4(camObject.matrixRotationWorld);
-	camObject.translate(-0.1, dirW);
+
+	var m = new THREE.Matrix4();
+	camObject.matrixWorld.extractRotation(m);
+	var dirW = dir.applyMatrix4(m);
+
+	camObject.translateOnAxis(dirW, -0.1 );
     }
     if ( keysPressed["A".charCodeAt(0)] == true ){
 	var dir = new THREE.Vector3(1,0,0);
-	var dirW = dir.applyMatrix4(camObject.matrixRotationWorld);
-	camObject.translate(-0.1, dirW);
+	var dirW = dir.applyEuler( camObject.rotation);
+
+	var m = new THREE.Matrix4();
+	camObject.matrixWorld.extractRotation(m);
+	var dirW = dir.applyMatrix4(m);
+
+	camObject.translateOnAxis(dirW, -0.1 );
     
     }
 
     if ( keysPressed["D".charCodeAt(0)] == true ){
 	var dir = new THREE.Vector3(1,0,0);
-	var dirW = dir.applyMatrix4(camObject.matrixRotationWorld);
-	camObject.translate(0.1, dirW);
+	var dirW = dir.applyEuler( camObject.rotation);
+
+	var m = new THREE.Matrix4();
+	camObject.matrixWorld.extractRotation(m);
+	var dirW = dir.applyMatrix4(m);
+
+	camObject.translateOnAxis(dirW, 0.1);
     }
 
     // request another frame update
