@@ -1,7 +1,7 @@
 /*******************************************************************************
-*  Three.js hello world example.
-* 
-*  Copyright (c) anssi.grohn@karelia.fi 2013.
+*  Three.js (r69) hello world example.
+*
+*  Copyright (c) anssi.grohn@karelia.fi 2013-2015.
 *
 *******************************************************************************/
 
@@ -27,7 +27,7 @@ $(function(){
 
     // define renderer viewport size and clear color
     renderer.setSize(width,height);
-    renderer.setClearColorHex(0x000000, 1.0);
+    renderer.setClearColor(0x000000, 1.0);
 
     // create camera
     camera = new THREE.PerspectiveCamera( viewAngle, aspect, near, far);

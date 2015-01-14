@@ -1,7 +1,7 @@
 /*******************************************************************************
-*  WebGL hello world example, utilizing Three.js matrix type
-* 
-*  Copyright (c) anssi.grohn@karelia.fi 2013.
+*  WebGL hello world example, utilizing Three.js (r69) matrix type
+*
+*  Copyright (c) anssi.grohn@karelia.fi 2013-2015.
 *
 *******************************************************************************/
 
@@ -155,8 +155,8 @@ var WebGLApp = function(){
 	that.gl.enableVertexAttribArray(that.shaderProgram.vertexPositionAttribute);
 
 	// update uniforms in shader program
-	that.gl.uniformMatrix4fv( that.shaderProgram.projection, false, that.projMat.flattenToArray([]));
-	that.gl.uniformMatrix4fv( that.shaderProgram.modelView,  false, that.modelViewMat.flattenToArray([]));
+	that.gl.uniformMatrix4fv( that.shaderProgram.projection, false, that.projMat.flattenToArrayOffset([],0));
+	that.gl.uniformMatrix4fv( that.shaderProgram.modelView,  false, that.modelViewMat.flattenToArrayOffset([],0));
 	
 	// draw stuff on screen from vertices, using triangles.
 	that.gl.drawArrays( that.gl.TRIANGLES, 0, that.vertices.numItems);
