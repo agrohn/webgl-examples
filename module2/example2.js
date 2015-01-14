@@ -180,8 +180,8 @@ var WebGLApp = function(){
 	that.gl.enableVertexAttribArray(that.shaderProgram.vertexPositionAttribute);
 
 	// update uniforms in shader program
-	that.gl.uniformMatrix4fv( that.shaderProgram.projection, false, that.projMat.flattenToArray([]));
-	that.gl.uniformMatrix4fv( that.shaderProgram.modelView,  false, that.modelViewMat.flattenToArray([]));
+	that.gl.uniformMatrix4fv( that.shaderProgram.projection, false, that.projMat.flattenToArrayOffset([],0));
+	that.gl.uniformMatrix4fv( that.shaderProgram.modelView,  false, that.modelViewMat.flattenToArrayOffset([],0));
 
 	// tell opengl that we use this index buffer now.
 	that.gl.bindBuffer( that.gl.ELEMENT_ARRAY_BUFFER, that.indices);
