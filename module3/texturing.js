@@ -1,7 +1,7 @@
 /*******************************************************************************
-*  WebGL hello world example, utilizing Three.js matrix type
+*  WebGL hello world example, utilizing Three.js (r69) matrix type
 * 
-*  Copyright (c) anssi.grohn@karelia.fi 2013.
+*  Copyright (c) anssi.grohn@karelia.fi 2013-2015.
 *
 *******************************************************************************/
 
@@ -299,8 +299,8 @@ var WebGLApp = function(){
 
 
 	// update uniforms in shader program
-	gl.uniformMatrix4fv( prog.uniform.projection, false, that.projMat.flattenToArray([]));
-	gl.uniformMatrix4fv( prog.uniform.modelView,  false, that.modelViewMat.flattenToArray([]));
+	gl.uniformMatrix4fv( prog.uniform.projection, false, that.projMat.flattenToArrayOffset([],0));
+	gl.uniformMatrix4fv( prog.uniform.modelView,  false, that.modelViewMat.flattenToArrayOffset([],0));
 
 	gl.activeTexture(gl.TEXTURE0);
 	gl.bindTexture(gl.TEXTURE_2D, that.stoneTexture);

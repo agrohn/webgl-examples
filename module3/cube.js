@@ -1,7 +1,7 @@
 /*******************************************************************************
-*  Rudimentary skybox simulation, utilizing Three.js
+*  Rudimentary skybox simulation, utilizing Three.js (r69)
 * 
-*  Copyright (c) anssi.grohn@karelia.fi 2013.
+*  Copyright (c) anssi.grohn@karelia.fi 2013-2015.
 *
 *******************************************************************************/
 
@@ -57,7 +57,7 @@ $(function(){
 
     // create a new mesh with cube geometry 
     cube = new THREE.Mesh(
-	new THREE.CubeGeometry( 120,120,120, 1,1,1),	
+	new THREE.BoxGeometry( 120,120,120, 1,1,1),	
 	new THREE.MeshFaceMaterial(materials)
     );
     

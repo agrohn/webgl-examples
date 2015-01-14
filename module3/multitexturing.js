@@ -1,3 +1,9 @@
+/*******************************************************************************
+*  Multitexturing demo, utilizing Three.js (r69)
+* 
+*  Copyright (c) anssi.grohn@karelia.fi 2013-2015.
+*
+*******************************************************************************/
 
 // Create our test app "class"
 var WebGLApp = function(){
@@ -189,8 +195,8 @@ var WebGLApp = function(){
 	gl.enableVertexAttribArray(prog.attrib.texcoord2);
 
 	// update uniforms in shader program
-	gl.uniformMatrix4fv( prog.uniform.projection, false, that.projMat.flattenToArray([]));
-	gl.uniformMatrix4fv( prog.uniform.modelView,  false, that.modelViewMat.flattenToArray([]));
+	gl.uniformMatrix4fv( prog.uniform.projection, false, that.projMat.flattenToArrayOffset([],0));
+	gl.uniformMatrix4fv( prog.uniform.modelView,  false, that.modelViewMat.flattenToArrayOffset([],0));
 
 	gl.activeTexture(gl.TEXTURE0);
 	gl.bindTexture(gl.TEXTURE_2D, that.stoneTexture);
