@@ -2,7 +2,7 @@
  /*************************************************************
   3D Graphics Programming
   Custom particle system example.
-  (c) anssi.grohn at karelia.fi 2013
+  (c) anssi.grohn at karelia.fi 2013-2015.
  *************************************************************/
 
 // Parameters
@@ -260,7 +260,7 @@ $(function(){
     sbmfm.depthWrite = false;
     // Create a new mesh with cube geometry 
     var skybox = new THREE.Mesh(
-	new THREE.CubeGeometry( 10,10,10,1,1,1 ), 
+	new THREE.BoxGeometry( 10,10,10,1,1,1 ), 
 	sbmfm
     );
 
@@ -360,7 +360,7 @@ $(function(){
     });
 
 
-    var fence = new THREE.Mesh( new THREE.CubeGeometry(4,4,0.01), 
+    var fence = new THREE.Mesh( new THREE.BoxGeometry(4,4,0.01), 
 				fenceShader);
     scene.add(fence);
     fence.position.x = 12.5;
@@ -414,7 +414,7 @@ $(function(){
 	maxParticles: 10,
 	energyDecrement: 0.5,
 	throughPutFactor: 0.5,
-	material: new THREE.ParticleBasicMaterial({
+	material: new THREE.PointCloudMaterial({
 	    color: 0xffffff,
 	    size: 1,
 	    map: THREE.ImageUtils.loadTexture("plasma.png"),
@@ -506,38 +506,46 @@ var moving = false;
 function update(){
 
     // render everything 
-    renderer.setClearColorHex(0x000000, 1.0);
+    renderer.setClearColor(0x000000, 1.0);
     renderer.clear(true);
     renderer.render(scene, camera); 
     angle += 0.001;
     moving = false;
     if ( keysPressed["W".charCodeAt(0)] == true ){
 	var dir = new THREE.Vector3(0,0,-1);
-	var dirW = dir.applyMatrix4(camObject.matrixRotationWorld);
-	camObject.translate(0.1, dirW);
+	var m = new THREE.Matrix4();
+	camObject.matrixWorld.extractRotation(m);
+	var dirW = dir.applyMatrix4(m);
+	camObject.translateOnAxis(dirW, 0.1);
 	moving = true;
     }
 
     if ( keysPressed["S".charCodeAt(0)] == true ){
 
 	var dir = new THREE.Vector3(0,0,-1);
-	var dirW = dir.applyMatrix4(camObject.matrixRotationWorld);
-	camObject.translate(-0.1, dirW);
+	var m = new THREE.Matrix4();
+	camObject.matrixWorld.extractRotation(m);
+	var dirW = dir.applyMatrix4(m);
+	camObject.translateOnAxis(dirW,-0.1);
 	moving = true;
 
     }
     if ( keysPressed["A".charCodeAt(0)] == true ){
 	var dir = new THREE.Vector3(-1,0,0);
-	var dirW = dir.applyMatrix4(camObject.matrixRotationWorld);
-	camObject.translate(0.1, dirW);
+	var m = new THREE.Matrix4();
+	camObject.matrixWorld.extractRotation(m);
+	var dirW = dir.applyMatrix4(m);
+	camObject.translateOnAxis(dirW,0.1);
 	moving = true;
     }
 
     if ( keysPressed["D".charCodeAt(0)] == true ){
 
 	var dir = new THREE.Vector3(-1,0,0);
-	var dirW = dir.applyMatrix4(camObject.matrixRotationWorld);
-	camObject.translate(-0.1, dirW);
+	var m = new THREE.Matrix4();
+	camObject.matrixWorld.extractRotation(m);
+	var dirW = dir.applyMatrix4(m);
+	camObject.translateOnAxis(dirW,-0.1);
 	moving = true;
     }
     
@@ -566,7 +574,9 @@ function update(){
     
 
     var dir = new THREE.Vector3(0,0,-1);
-    var dirW = dir.applyMatrix4(camObject.matrixRotationWorld);
+    var m = new THREE.Matrix4();
+    camObject.matrixWorld.extractRotation(m);
+    var dirW = dir.applyMatrix4(m);
 
     spotLight.target.position = dirW;
     if ( shoulderRotationJoint ){
@@ -644,19 +654,19 @@ function displayFPS(){
 	new THREE.SphereGeometry(0.2,10,10), 
 	new THREE.MeshLambertMaterial({ color: 0xFF0000, transparent: false})
     );
-    upperArm  = new THREE.Mesh( new THREE.CubeGeometry(0.125,0.5,0.125),
+    upperArm  = new THREE.Mesh( new THREE.BoxGeometry(0.125,0.5,0.125),
 				new THREE.MeshLambertMaterial({ color: 0x00FF00, transparent: true}));
     upperArm.position.y = 0.45;
     elbowJoint = new THREE.Mesh( 
 	new THREE.SphereGeometry(0.12,10,10), 
 	new THREE.MeshLambertMaterial({ color: 0xFF00FF, transparent: false})
     );
-    lowerArm = new THREE.Mesh( new THREE.CubeGeometry(0.125,0.5,0.125),
+    lowerArm = new THREE.Mesh( new THREE.BoxGeometry(0.125,0.5,0.125),
 				new THREE.MeshLambertMaterial({ color: 0xFFFF00, transparent: false}));
     
 
     wrist = new THREE.Object3D();
-    hand = new THREE.Mesh( new THREE.CubeGeometry(0.25,0.25,0.25),
+    hand = new THREE.Mesh( new THREE.BoxGeometry(0.25,0.25,0.25),
 			   new THREE.MeshLambertMaterial({ color: 0x0000FF, transparent: false}));
     shoulderRotationJoint.add(shoulderTiltingJoint);
     shoulderTiltingJoint.add(upperArm);
@@ -719,7 +729,7 @@ var CustomParticleSystem = function( options )
 	this.particles.vertices.push ( new THREE.Vector3());
     }
     
-    this.ps = new THREE.ParticleSystem(this.particles, 
+    this.ps = new THREE.PointCloud(this.particles, 
 				       this.options.material);
     this.ps.renderDepth = 0;
     this.ps.sortParticles = false;

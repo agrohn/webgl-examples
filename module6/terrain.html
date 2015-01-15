@@ -2,7 +2,7 @@
 /*************************************************************
   3D Graphics Programming
   Displacement mapping with plane and a simple texture.
-  (c) anssi.grohn at karelia.fi 2013
+  (c) anssi.grohn at karelia.fi 2013-2015
  *************************************************************/
  -->
 <html>
@@ -108,7 +108,8 @@
 	 // Construct quad faces from vertex array
 	 for(var h=0;h<HEIGHT-1;h++){
              for(var w=0;w<WIDTH-1;w++){
-		 geom.faces.push(new THREE.Face4(w+(WIDTH*h),WIDTH*(h+1)+w,WIDTH*(h+1)+w+1, w+(WIDTH*h)+1));
+		 geom.faces.push(new THREE.Face3(w+(WIDTH*h),WIDTH*(h+1)+w,WIDTH*(h+1)+w+1));
+		 geom.faces.push(new THREE.Face3(w+(WIDTH*h),WIDTH*(h+1)+w+1, w+(WIDTH*h)+1));
              }
 	 }
 	 geom.computeBoundingSphere();
